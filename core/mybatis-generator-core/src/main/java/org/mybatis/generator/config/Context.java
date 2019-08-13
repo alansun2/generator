@@ -365,8 +365,7 @@ public class Context extends PropertyHolder {
             throws SQLException, InterruptedException {
 
         introspectedTables = new ArrayList<>();
-        JavaTypeResolver javaTypeResolver = ObjectFactory
-                .createJavaTypeResolver(this, warnings);
+        JavaTypeResolver javaTypeResolver = ObjectFactory.createJavaTypeResolver(this, warnings);
 
         Connection connection = null;
 
@@ -378,8 +377,7 @@ public class Context extends PropertyHolder {
                     this, connection.getMetaData(), javaTypeResolver, warnings);
 
             for (TableConfiguration tc : tableConfigurations) {
-                String tableName = composeFullyQualifiedTableName(tc.getCatalog(), tc
-                                .getSchema(), tc.getTableName(), '.');
+                String tableName = composeFullyQualifiedTableName(tc.getCatalog(), tc.getSchema(), tc.getTableName(), '.');
 
                 if (fullyQualifiedTableNames != null
                         && !fullyQualifiedTableNames.isEmpty()
@@ -393,8 +391,7 @@ public class Context extends PropertyHolder {
                 }
 
                 callback.startTask(getString("Progress.1", tableName)); //$NON-NLS-1$
-                List<IntrospectedTable> tables = databaseIntrospector
-                        .introspectTables(tc);
+                List<IntrospectedTable> tables = databaseIntrospector.introspectTables(tc);
 
                 if (tables != null) {
                     introspectedTables.addAll(tables);

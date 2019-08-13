@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2018 the original author or authors.
+ *    Copyright 2006-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -15,17 +15,17 @@
  */
 package org.mybatis.generator.config;
 
-import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
-import static org.mybatis.generator.internal.util.messages.Messages.getString;
+import org.mybatis.generator.internal.db.DatabaseDialects;
 
 import java.util.List;
 
-import org.mybatis.generator.internal.db.DatabaseDialects;
+import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
+import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
 /**
  * This class specifies that a key is auto-generated, either as an identity
  * column (post insert), or as some other query like a sequences (pre insert).
- * 
+ *
  * @author Jeff Butler
  */
 public class GeneratedKey {
@@ -39,7 +39,7 @@ public class GeneratedKey {
     private String type;
 
     public GeneratedKey(String column, String configuredSqlStatement,
-            boolean isIdentity, String type) {
+                        boolean isIdentity, String type) {
         super();
         this.column = column;
         this.type = type;

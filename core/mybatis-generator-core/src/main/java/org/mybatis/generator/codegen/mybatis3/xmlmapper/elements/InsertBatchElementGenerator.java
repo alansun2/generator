@@ -27,13 +27,16 @@ import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InsertElementGenerator extends AbstractXmlElementGenerator {
+/**
+ *
+ * @author Jeff Butler
+ *
+ */
+public class InsertBatchElementGenerator extends AbstractXmlElementGenerator {
 
-    private boolean isSimple;
 
-    public InsertElementGenerator(boolean isSimple) {
+    public InsertBatchElementGenerator() {
         super();
-        this.isSimple = isSimple;
     }
 
     @Override
@@ -41,72 +44,55 @@ public class InsertElementGenerator extends AbstractXmlElementGenerator {
         XmlElement answer = new XmlElement("insert"); //$NON-NLS-1$
 
         answer.addAttribute(new Attribute(
-                "id", introspectedTable.getInsertStatementId())); //$NON-NLS-1$
-
-        FullyQualifiedJavaType parameterType;
-        if (isSimple) {
-            parameterType = new FullyQualifiedJavaType(
-                    introspectedTable.getBaseRecordType());
-        } else {
-            parameterType = introspectedTable.getRules()
-                    .calculateAllFieldsClass();
-        }
+                "id", introspectedTable.getInsertBatchStatementId())); //$NON-NLS-1$
 
         answer.addAttribute(new Attribute("parameterType", //$NON-NLS-1$
-                parameterType.getFullyQualifiedName()));
+                FullyQualifiedJavaType.getNewListInstance().getFullyQualifiedName()));
 
         context.getCommentGenerator().addComment(answer);
 
         this.generateKey(introspectedTable, answer);
 
+        answer.addElement(new TextElement("insert into " + introspectedTable.getFullyQualifiedTableNameAtRuntime()));
+        answer.addElement(new TextElement(" ("));
+
         StringBuilder insertClause = new StringBuilder();
-
-        insertClause.append("insert into "); //$NON-NLS-1$
-        insertClause.append(introspectedTable
-                .getFullyQualifiedTableNameAtRuntime());
-        insertClause.append(" ("); //$NON-NLS-1$
-
         StringBuilder valuesClause = new StringBuilder();
-        valuesClause.append("values ("); //$NON-NLS-1$
-
-        List<String> valuesClauses = new ArrayList<>();
-        List<IntrospectedColumn> columns =
-                ListUtilities.removeIdentityAndGeneratedAlwaysColumns(introspectedTable.getAllColumns());
+        List<String> valuesClauses = new ArrayList<String>();
+        List<IntrospectedColumn> columns = ListUtilities.removeIdentityAndGeneratedAlwaysColumns(introspectedTable.getAllColumns());
         for (int i = 0; i < columns.size(); i++) {
             IntrospectedColumn introspectedColumn = columns.get(i);
 
-            insertClause.append(MyBatis3FormattingUtilities
-                    .getEscapedColumnName(introspectedColumn));
-            valuesClause.append(MyBatis3FormattingUtilities
-                    .getParameterClause(introspectedColumn));
+            insertClause.setLength(0);
+            valuesClause.setLength(0);
+            insertClause.append(MyBatis3FormattingUtilities.getEscapedColumnName(introspectedColumn));
+            valuesClause.append(MyBatis3FormattingUtilities.getParameterClause(introspectedColumn, "item."));
             if (i + 1 < columns.size()) {
                 insertClause.append(", "); //$NON-NLS-1$
                 valuesClause.append(", "); //$NON-NLS-1$
             }
 
-            if (valuesClause.length() > 80) {
-                answer.addElement(new TextElement(insertClause.toString()));
-                insertClause.setLength(0);
-                OutputUtilities.xmlIndent(insertClause, 1);
-
-                valuesClauses.add(valuesClause.toString());
-                valuesClause.setLength(0);
-                OutputUtilities.xmlIndent(valuesClause, 1);
-            }
+            answer.addElement(new TextElement(insertClause.toString()));
+            OutputUtilities.xmlIndent(insertClause, 1);
+            valuesClauses.add(valuesClause.toString());
+            OutputUtilities.xmlIndent(valuesClause, 3);
         }
 
-        insertClause.append(')');
-        answer.addElement(new TextElement(insertClause.toString()));
-
-        valuesClause.append(')');
-        valuesClauses.add(valuesClause.toString());
+        answer.addElement(new TextElement(")"));
+        OutputUtilities.xmlIndent(valuesClause, 1);
+        answer.addElement(new TextElement("values"));
+        OutputUtilities.xmlIndent(valuesClause, 1);
+        answer.addElement(new TextElement("<foreach collection=\"list\" item=\"item\" separator=\",\">"));
+        answer.addElement(new TextElement("("));
 
         for (String clause : valuesClauses) {
             answer.addElement(new TextElement(clause));
         }
 
-        if (context.getPlugins().sqlMapInsertElementGenerated(answer,
-                introspectedTable)) {
+        answer.addElement(new TextElement(")"));
+        answer.addElement(new TextElement("</foreach>"));
+
+        if (context.getPlugins().sqlMapInsertElementGenerated(answer, introspectedTable)) {
             parentElement.addElement(answer);
         }
     }

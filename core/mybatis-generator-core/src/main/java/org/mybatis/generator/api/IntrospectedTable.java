@@ -77,6 +77,7 @@ public abstract class IntrospectedTable {
         ATTR_DELETE_BY_PRIMARY_KEY_STATEMENT_ID,
         ATTR_INSERT_STATEMENT_ID,
         ATTR_INSERT_SELECTIVE_STATEMENT_ID,
+        ATTR_INSERT_BATCH_STATEMENT_ID,
         ATTR_SELECT_ALL_STATEMENT_ID,
         ATTR_SELECT_BY_EXAMPLE_STATEMENT_ID,
         ATTR_SELECT_BY_EXAMPLE_WITH_BLOBS_STATEMENT_ID,
@@ -409,6 +410,7 @@ public abstract class IntrospectedTable {
         setDeleteByPrimaryKeyStatementId("deleteByPrimaryKey"); //$NON-NLS-1$
         setInsertStatementId("insert"); //$NON-NLS-1$
         setInsertSelectiveStatementId("insertSelective"); //$NON-NLS-1$
+        setInsertBatchStatementId("insertBatch"); //$NON-NLS-1$
         setSelectAllStatementId("selectAll"); //$NON-NLS-1$
         setSelectByExampleStatementId("selectByExample"); //$NON-NLS-1$
         setSelectByExampleWithBLOBsStatementId("selectByExampleWithBLOBs"); //$NON-NLS-1$
@@ -518,6 +520,11 @@ public abstract class IntrospectedTable {
                 InternalAttribute.ATTR_INSERT_SELECTIVE_STATEMENT_ID, s);
     }
 
+    public void setInsertBatchStatementId(String s) {
+        internalAttributes.put(
+                InternalAttribute.ATTR_INSERT_BATCH_STATEMENT_ID, s);
+    }
+
     public void setInsertStatementId(String s) {
         internalAttributes.put(InternalAttribute.ATTR_INSERT_STATEMENT_ID, s);
     }
@@ -620,6 +627,11 @@ public abstract class IntrospectedTable {
     public String getInsertSelectiveStatementId() {
         return internalAttributes
                 .get(InternalAttribute.ATTR_INSERT_SELECTIVE_STATEMENT_ID);
+    }
+
+    public String getInsertBatchStatementId() {
+        return internalAttributes
+                .get(InternalAttribute.ATTR_INSERT_BATCH_STATEMENT_ID);
     }
 
     public String getInsertStatementId() {
@@ -853,8 +865,7 @@ public abstract class IntrospectedTable {
     }
 
     public String getAliasedFullyQualifiedTableNameAtRuntime() {
-        return internalAttributes
-                .get(InternalAttribute.ATTR_ALIASED_FULLY_QUALIFIED_TABLE_NAME_AT_RUNTIME);
+        return internalAttributes.get(InternalAttribute.ATTR_ALIASED_FULLY_QUALIFIED_TABLE_NAME_AT_RUNTIME);
     }
 
     /**

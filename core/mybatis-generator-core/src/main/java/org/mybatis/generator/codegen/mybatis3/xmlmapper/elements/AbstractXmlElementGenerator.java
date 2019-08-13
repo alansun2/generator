@@ -16,6 +16,7 @@
 package org.mybatis.generator.codegen.mybatis3.xmlmapper.elements;
 
 import org.mybatis.generator.api.IntrospectedColumn;
+import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
@@ -32,15 +33,13 @@ public abstract class AbstractXmlElementGenerator extends AbstractGenerator {
     /**
      * This method should return an XmlElement for the select key used to
      * automatically generate keys.
-     * 
-     * @param introspectedColumn
-     *            the column related to the select key statement
-     * @param generatedKey
-     *            the generated key for the current table
+     *
+     * @param introspectedColumn the column related to the select key statement
+     * @param generatedKey       the generated key for the current table
      * @return the selectKey element
      */
     protected XmlElement getSelectKey(IntrospectedColumn introspectedColumn,
-            GeneratedKey generatedKey) {
+                                      GeneratedKey generatedKey) {
         String identityColumnType = introspectedColumn
                 .getFullyQualifiedJavaType().getFullyQualifiedName();
 
@@ -49,12 +48,38 @@ public abstract class AbstractXmlElementGenerator extends AbstractGenerator {
         answer.addAttribute(new Attribute(
                 "keyProperty", introspectedColumn.getJavaProperty())); //$NON-NLS-1$
         answer.addAttribute(new Attribute("order", //$NON-NLS-1$
-                generatedKey.getMyBatis3Order())); 
-        
+                generatedKey.getMyBatis3Order()));
+
         answer.addElement(new TextElement(generatedKey
-                        .getRuntimeSqlStatement()));
+                .getRuntimeSqlStatement()));
 
         return answer;
+    }
+
+    /**
+     * -----
+     * 插入时返回生成主键
+     *
+     * @param introspectedTable introspectedTable
+     * @param answer            answer
+     */
+    protected void generateKey(IntrospectedTable introspectedTable, XmlElement answer) {
+        GeneratedKey gk = introspectedTable.getGeneratedKey();
+        if (gk != null) {
+            introspectedTable.getColumn(gk.getColumn()).ifPresent(introspectedColumn -> {
+                // if the column is null, then it's a configuration error. The
+                // warning has already been reported
+                if (gk.isJdbcStandard()) {
+                    answer.addAttribute(new Attribute("useGeneratedKeys", "true")); //$NON-NLS-1$ //$NON-NLS-2$
+                    answer.addAttribute(
+                            new Attribute("keyProperty", introspectedColumn.getJavaProperty())); //$NON-NLS-1$
+                    answer.addAttribute(
+                            new Attribute("keyColumn", introspectedColumn.getActualColumnName())); //$NON-NLS-1$
+                } else {
+                    answer.addElement(getSelectKey(introspectedColumn, gk));
+                }
+            });
+        }
     }
 
     protected XmlElement getBaseColumnListElement() {

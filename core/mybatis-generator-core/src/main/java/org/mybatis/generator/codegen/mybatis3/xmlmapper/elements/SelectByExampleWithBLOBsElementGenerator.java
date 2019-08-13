@@ -20,6 +20,7 @@ import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
+import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 
 public class SelectByExampleWithBLOBsElementGenerator extends
         AbstractXmlElementGenerator {
@@ -63,8 +64,7 @@ public class SelectByExampleWithBLOBsElementGenerator extends
 
         sb.setLength(0);
         sb.append("from "); //$NON-NLS-1$
-        sb.append(introspectedTable
-                .getAliasedFullyQualifiedTableNameAtRuntime());
+        sb.append(introspectedTable.getAliasedFullyQualifiedTableNameAtRuntime());
         answer.addElement(new TextElement(sb.toString()));
         answer.addElement(getExampleIncludeElement());
 
@@ -73,9 +73,19 @@ public class SelectByExampleWithBLOBsElementGenerator extends
         ifElement.addElement(new TextElement("order by ${orderByClause}")); //$NON-NLS-1$
         answer.addElement(ifElement);
 
-        if (context.getPlugins()
-                .sqlMapSelectByExampleWithBLOBsElementGenerated(answer,
-                        introspectedTable)) {
+        XmlElement ifElement1 = new XmlElement("if"); //$NON-NLS-1$
+        ifElement1.addAttribute(new Attribute("test", "limit != null")); //$NON-NLS-1$ //$NON-NLS-2$
+        XmlElement ifElement2 = new XmlElement("if"); //$NON-NLS-1$
+        ifElement2.addAttribute(new Attribute("test", "offset != null")); //$NON-NLS-1$ //$NON-NLS-2$
+        ifElement2.addElement(new TextElement("limit ${offset}, ${limit}"));
+        ifElement1.addElement(0, ifElement2); //$NON-NLS-1$
+        ifElement2 = new XmlElement("if"); //$NON-NLS-1$
+        ifElement2.addAttribute(new Attribute("test", "offset == null")); //$NON-NLS-1$ //$NON-NLS-2$
+        ifElement2.addElement(new TextElement("limit ${limit}"));
+        ifElement1.addElement(1, ifElement2); //$NON-NLS-1$
+        answer.addElement(ifElement1);
+
+        if (context.getPlugins().sqlMapSelectByExampleWithBLOBsElementGenerated(answer, introspectedTable)) {
             parentElement.addElement(answer);
         }
     }
