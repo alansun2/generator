@@ -29,6 +29,8 @@ public class FullyQualifiedJavaType implements
 
     private static FullyQualifiedJavaType intInstance = null;
 
+    private static FullyQualifiedJavaType integerInstance = null;
+
     private static FullyQualifiedJavaType stringInstance = null;
 
     private static FullyQualifiedJavaType booleanPrimitiveInstance = null;
@@ -249,6 +251,14 @@ public class FullyQualifiedJavaType implements
         }
 
         return intInstance;
+    }
+
+    public static final FullyQualifiedJavaType getIntegerInstance() {
+        if (integerInstance == null) {
+            integerInstance = new FullyQualifiedJavaType("java.lang.Integer"); //$NON-NLS-1$
+        }
+
+        return integerInstance;
     }
 
     public static final FullyQualifiedJavaType getNewMapInstance() {

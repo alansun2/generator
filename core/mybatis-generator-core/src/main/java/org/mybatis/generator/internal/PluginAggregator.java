@@ -269,8 +269,7 @@ public final class PluginAggregator implements Plugin {
         boolean rc = true;
 
         for (Plugin plugin : plugins) {
-            if (!plugin
-                    .sqlMapInsertElementGenerated(element, introspectedTable)) {
+            if (!plugin.sqlMapInsertElementGenerated(element, introspectedTable)) {
                 rc = false;
                 break;
             }

@@ -230,9 +230,7 @@ public class JavaBeansUtil {
                 compilationUnit.getImportedTypes());
     }
 
-    public static Field getJavaBeansField(IntrospectedColumn introspectedColumn,
-            Context context,
-            IntrospectedTable introspectedTable) {
+    public static Field getJavaBeansField(IntrospectedColumn introspectedColumn, Context context, IntrospectedTable introspectedTable) {
         Field field = getBasicJavaBeansField(introspectedColumn);
         addGeneratedJavaDoc(field, context, introspectedColumn, introspectedTable);
         return field;
@@ -248,8 +246,7 @@ public class JavaBeansUtil {
     }
 
     private static Field getBasicJavaBeansField(IntrospectedColumn introspectedColumn) {
-        FullyQualifiedJavaType fqjt = introspectedColumn
-                .getFullyQualifiedJavaType();
+        FullyQualifiedJavaType fqjt = introspectedColumn.getFullyQualifiedJavaType();
         String property = introspectedColumn.getJavaProperty();
 
         Field field = new Field(property, fqjt);
@@ -258,21 +255,16 @@ public class JavaBeansUtil {
         return field;
     }
     
-    private static void addGeneratedJavaDoc(Field field, Context context, IntrospectedColumn introspectedColumn,
-            IntrospectedTable introspectedTable) {
-        context.getCommentGenerator().addFieldComment(field,
-                introspectedTable, introspectedColumn);
+    private static void addGeneratedJavaDoc(Field field, Context context, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable) {
+        context.getCommentGenerator().addFieldComment(field, introspectedTable, introspectedColumn);
     }
 
     private static void addGeneratedAnnotation(Field field, Context context, IntrospectedColumn introspectedColumn,
             IntrospectedTable introspectedTable, CompilationUnit compilationUnit) {
-        context.getCommentGenerator().addFieldAnnotation(field, introspectedTable, introspectedColumn,
-                compilationUnit.getImportedTypes());
+        context.getCommentGenerator().addFieldAnnotation(field, introspectedTable, introspectedColumn, compilationUnit.getImportedTypes());
     }
     
-    public static Method getJavaBeansSetter(IntrospectedColumn introspectedColumn,
-            Context context,
-            IntrospectedTable introspectedTable) {
+    public static Method getJavaBeansSetter(IntrospectedColumn introspectedColumn, Context context, IntrospectedTable introspectedTable) {
         Method method = getBasicJavaBeansSetter(introspectedColumn);
         addGeneratedSetterJavaDoc(method, introspectedColumn, context, introspectedTable);
         return method;

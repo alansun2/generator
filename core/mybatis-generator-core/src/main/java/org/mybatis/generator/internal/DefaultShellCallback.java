@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2018 the original author or authors.
+ *    Copyright 2006-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import static org.mybatis.generator.internal.util.messages.Messages.getString;
 import java.io.File;
 import java.util.StringTokenizer;
 
+import org.mybatis.generator.api.GeneratedXmlFile;
 import org.mybatis.generator.api.ShellCallback;
 import org.mybatis.generator.exception.ShellException;
 
@@ -87,5 +88,10 @@ public class DefaultShellCallback implements ShellCallback {
             File existingFile, String[] javadocTags, String fileEncoding)
             throws ShellException {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String mergeXmlFile(GeneratedXmlFile gxf, File targetFile) throws ShellException {
+        return null;
     }
 }

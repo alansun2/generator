@@ -77,19 +77,19 @@ public class ExampleGenerator extends AbstractJavaGenerator {
         topLevelClass.addField(field);
 
         // add field, getter, setter for limit
-        field = new Field("limit", FullyQualifiedJavaType.getIntInstance());
+        field = new Field("limit", FullyQualifiedJavaType.getIntegerInstance());
         field.setVisibility(JavaVisibility.PROTECTED);
         commentGenerator.addFieldComment(field, introspectedTable);
         topLevelClass.addField(field);
 
         // add field, getter, setter for offset
-        field = new Field("offset", FullyQualifiedJavaType.getIntInstance());
+        field = new Field("offset", FullyQualifiedJavaType.getIntegerInstance());
         field.setVisibility(JavaVisibility.PROTECTED);
         commentGenerator.addFieldComment(field, introspectedTable);
         topLevelClass.addField(field);
 
         // add field, getter, setter for pageId
-        field = new Field("pageId", FullyQualifiedJavaType.getIntInstance());
+        field = new Field("pageId", FullyQualifiedJavaType.getIntegerInstance());
         field.setVisibility(JavaVisibility.PROTECTED);
         commentGenerator.addFieldComment(field, introspectedTable);
         topLevelClass.addField(field);
