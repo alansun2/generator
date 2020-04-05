@@ -289,7 +289,6 @@
 
   <modules>
     <module>mybatis-generator-core</module>
-    <module>mybatis-generator-maven-plugin</module>
   </modules>
 
   <repositories>

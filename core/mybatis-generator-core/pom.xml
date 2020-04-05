@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-       Copyright 2006-2018 the original author or authors.
+       Copyright 2006-2020 the original author or authors.
 
        Licensed under the Apache License, Version 2.0 (the "License");
        you may not use this file except in compliance with the License.
@@ -36,13 +36,13 @@
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <skipDeploy>false</skipDeploy>
-        </configuration>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-site-plugin</artifactId>-->
+<!--        <configuration>-->
+<!--          <skipDeploy>false</skipDeploy>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
       <!-- create the Source JAR and JavaDoc a bit earlier so it is ready for the assembly -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -56,18 +56,18 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <phase>prepare-package</phase>-->
+<!--            <goals>-->
+<!--              <goal>jar</goal>-->
+<!--            </goals>-->
+<!--          </execution>-->
+<!--        </executions>-->
+<!--      </plugin>-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -98,34 +98,34 @@
         </executions>
       </plugin>
 
-      <plugin>
-        <artifactId>kotlin-maven-plugin</artifactId>
-        <groupId>org.jetbrains.kotlin</groupId>
-        <executions>
-          <execution>
-            <id>compile</id>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <sourceDirs>
-                <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
-              </sourceDirs>
-            </configuration>
-          </execution>
-          <execution>
-            <id>test-compile</id>
-            <goals>
-              <goal>test-compile</goal>
-            </goals>
-            <configuration>
-              <sourceDirs>
-                <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
-              </sourceDirs>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+<!--      <plugin>-->
+<!--        <artifactId>kotlin-maven-plugin</artifactId>-->
+<!--        <groupId>org.jetbrains.kotlin</groupId>-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <id>compile</id>-->
+<!--            <goals>-->
+<!--              <goal>compile</goal>-->
+<!--            </goals>-->
+<!--            <configuration>-->
+<!--              <sourceDirs>-->
+<!--                <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>-->
+<!--              </sourceDirs>-->
+<!--            </configuration>-->
+<!--          </execution>-->
+<!--          <execution>-->
+<!--            <id>test-compile</id>-->
+<!--            <goals>-->
+<!--              <goal>test-compile</goal>-->
+<!--            </goals>-->
+<!--            <configuration>-->
+<!--              <sourceDirs>-->
+<!--                <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>-->
+<!--              </sourceDirs>-->
+<!--            </configuration>-->
+<!--          </execution>-->
+<!--        </executions>-->
+<!--      </plugin>-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
